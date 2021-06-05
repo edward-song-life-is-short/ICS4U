@@ -17,7 +17,7 @@ int main() {
         d1->dealCard().printCards();
     }
 
-    cout << endl << d1->moreCards();
+    cout << endl << "Card in deck status:" << d1->moreCards();
 
 	delete d1;
 
