@@ -2,7 +2,6 @@
 #include <sstream>
 
 bool Teacher::isValidId(string id) {
-    cout << id << endl;
     if(id.length() != 6 || id[0] != 'C') {
         return false;
     }
@@ -50,6 +49,10 @@ string Teacher::toString() {
     
     return t_str += t_ss.str();
 
+}
+
+void Teacher::markStudentLate(Student& s) {
+    s.addLate();
 }
 
 void Teacher::setTeachables(string t) {

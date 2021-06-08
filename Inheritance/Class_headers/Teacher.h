@@ -22,7 +22,7 @@ class Teacher : public Person {
         void setTeachables(string t);
         void setEmployeeId(string id);
 
-        void markStudentLate(Student s);
+        void markStudentLate(Student &s);
         string toString();
 };
 

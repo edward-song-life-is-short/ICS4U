@@ -9,6 +9,7 @@ class Student: public Person {
         int grade;
         string studentID = "";
         int numLates = 0;
+        int ID_SIZE = 10;
     
     public:
         Student(string first, string last);

@@ -3,6 +3,20 @@
 using namespace std;
 #include <sstream>
 
+bool Student::isValidId(string id) {
+    if(id.length() != ID_SIZE || id[0] != 'S') {
+        return false;
+    }
+
+    for(int i = 1; i < ID_SIZE; i++) {
+        if(!isdigit(id[i])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 Student::Student(string first, string last) : Person(first, last) {
     grade = 0;
     studentID = "";
@@ -10,12 +24,12 @@ Student::Student(string first, string last) : Person(first, last) {
 
 Student::Student(string f, string l, string a, int g, string id) : Person(f, l, a) {
     grade = g;
-    studentID = id;
+    this->setStudentId(id);
 }
 
 Student::Student(string f, string l, int g, string id) : Person(f, l) {
     grade = g;
-    studentID = id;
+    this->setStudentId(id);
 }
 
 int Student::getGrade(){
@@ -34,18 +48,18 @@ void Student::setGrade(int n) {
 }
 
 void Student::setStudentId(string id) {
-    studentID = id;
+    bool valid = this->isValidId(id);
+
+    if(!valid) {
+        studentID = "Invalid ID";
+    }
+    else {
+        studentID = id;
+    }
 }
 
 void Student::addLate() {
-    numLates++;
-}
-
-bool Student::isValidId(string id) {
-    if(id.length() != 10 || id.at(0) == 'C') { 
-        return false;
-    }
-
+    numLates = numLates++;
 }
 
 string Student::toString() {
