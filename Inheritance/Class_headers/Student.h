@@ -1,11 +1,14 @@
+#ifndef Student_H
+#define Student_H
+
 #include "Person.h"
 
 class Student: public Person {
     private:
         bool isValidId(string);
         int grade;
-        string studentID;
-        int numLates;
+        string studentID = "";
+        int numLates = 0;
     
     public:
         Student(string first, string last);
@@ -17,4 +20,8 @@ class Student: public Person {
         void setGrade(int n);
         void setStudentId(string id);
         void addLate();
+
+        string toString();
 };
+
+#endif

@@ -1,4 +1,5 @@
-#include "Person.h"
+#include "../Class_headers/Person.h"
+#include <sstream>
 
 Person::Person() {
     firstName = "N/A";
@@ -42,9 +43,13 @@ void Person::setAddress(string add) {
     address = add;
 }
 
-string Person::toString() {
-    cout << "First Name:" << firstName << endl;
-    cout << "Last Name:" << lastName << endl;
-    cout << "Address:" << address << endl;
+string Person::generalString() {
+    stringstream outs;
+
+    outs << "First Name:" << firstName << endl;
+    outs << "Last Name:" << lastName << endl;
+    outs << "Address:" << address << endl;
+
+    return outs.str();
 }
 

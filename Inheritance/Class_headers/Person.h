@@ -1,3 +1,6 @@
+#ifndef Person_H
+#define Person_H
+
 #include <string>
 #include <iostream>
 
@@ -22,6 +25,8 @@ class Person {
         void setLastName(string);
         void setAddress(string);
 
-        string toString();
+        string generalString();
    
 };
+
+#endif
