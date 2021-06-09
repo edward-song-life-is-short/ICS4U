@@ -59,7 +59,7 @@ void Student::setStudentId(string id) {
 }
 
 void Student::addLate() {
-    numLates = numLates++;
+    numLates++;
 }
 
 string Student::toString() {
