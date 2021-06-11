@@ -31,7 +31,7 @@ void Flight::setPlane(string p) {
     for(int i = 0; i < 6; i++) {
         if(registeredPlanes[i].compare(p) == 0) {
             plane = p;
-            break;
+            return;
         }
     }
 
@@ -39,9 +39,10 @@ void Flight::setPlane(string p) {
 }
 
 void Flight::setLocation(string o, string d) {
-    if(o.compare(d)) {
+    if(!o.compare(d)) {
         origin = "Invalid";
         destination = "Invalid";
+        cout << "same";
         return;
     }
     
@@ -49,12 +50,12 @@ void Flight::setLocation(string o, string d) {
     int de = false;
 
     for(int i = 0; i < 10; i++) {
-        if(places[i].compare(o)) {
+        if(!places[i].compare(o)) {
             origin = o;
             ori = true;
         }
 
-        if(places[i].compare(d)) {
+        if(!places[i].compare(d)) {
             destination = d;
             de = true;
         }
@@ -71,8 +72,27 @@ void Flight::setLocation(string o, string d) {
 }
 
 void Flight::setTime(string t) {
-    if((int) t[0] >= 0 && (int) t[0] <= 24 && t.length() == 2) {
+    // string str = t.substr(1,2);
+    
+    // int num = t[0] - '0';
+    // cout << num;
 
-    }
+    // if(num >= 0 && num <= 24 && t.length() == 3 && (str.compare("am") == 0 || str.compare("pm"))) {
+    //     time = t;
+    // }
+    // else {
+    //     time = "Invalid";
+    // }
+
+    time = t;
 
 }
+
+void Flight::output() {
+    cout << "Flight Number:" << flight << endl;
+    cout << "Origin to Destination:" << origin << " to " << destination << endl;
+    cout << "Flight Time:" << time << endl;
+    cout << "Plane:" << plane << endl;
+}
+
+Flight::~Flight() {}

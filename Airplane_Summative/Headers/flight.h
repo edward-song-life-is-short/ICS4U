@@ -36,7 +36,9 @@ class Flight {
         bool checkSeat(string s); 
         void bookSeat(string s);
         
-        
+        void output();
+
+        ~Flight();
     
 
 
