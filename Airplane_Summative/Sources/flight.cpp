@@ -89,10 +89,66 @@ void Flight::setTime(string t) {
 }
 
 void Flight::output() {
+    cout << "Flight Summary" << endl << endl;
+    
     cout << "Flight Number:" << flight << endl;
-    cout << "Origin to Destination:" << origin << " to " << destination << endl;
+    
+    
+    if(!origin.compare("Invalid") && !destination.compare("Invalid"))
+        cout << "Origin to Destination:" << origin << " to " << destination << endl;
+    else 
+        cout << "Origin to destination: Invalid" << endl;
+    
     cout << "Flight Time:" << time << endl;
     cout << "Plane:" << plane << endl;
+
+    cout << endl;
+}
+
+bool Flight::readSeat(string s) {
+    bool valid = true;
+    //seat check
+
+    int seatNum = s[0] - '0';
+
+    char letter = s[1];
+
+    if(s.length() != 2 || (seatNum < 1 || seatNum > 5) || (letter != 'a' && letter != 'b') ) {
+        valid = false;
+    }
+
+    return valid;
+    
+}
+
+//book seat function0
+void Flight::bookSeat(string s) {
+    bool v;
+    
+    v = readSeat(s);
+    string newSeat = s;
+
+    
+    while(!v) {
+        cout << "Invalid Seat Number, Enter a valid seat:" << endl;
+        cin >> newSeat;
+
+        v = readSeat(newSeat);
+    }
+
+    for(int r = 0; r < rows; r++) {
+        for(int c = 0; c < cols; c++) {
+            if(!seatingPlan[r][c].compare(newSeat)) { //if the seat is found
+                seatingPlan[r][c] = "x"; 
+                cout << "Your seat " << newSeat << " has been booked successfully." << endl;
+                return;
+            }
+        }
+    }
+
+    cout << "This seat is not available." << endl;
+    
+
 }
 
 Flight::~Flight() {}
