@@ -28,8 +28,51 @@ void Flight::setFlightName(int id) {
 }
 
 void Flight::setPlane(string p) {
-    int pl_arr_size = 
+    for(int i = 0; i < 6; i++) {
+        if(registeredPlanes[i].compare(p) == 0) {
+            plane = p;
+            break;
+        }
+    }
 
-    for(int i = 0; i < )
+    plane = "Invalid";
 }
 
+void Flight::setLocation(string o, string d) {
+    if(o.compare(d)) {
+        origin = "Invalid";
+        destination = "Invalid";
+        return;
+    }
+    
+    bool ori = false;
+    int de = false;
+
+    for(int i = 0; i < 10; i++) {
+        if(places[i].compare(o)) {
+            origin = o;
+            ori = true;
+        }
+
+        if(places[i].compare(d)) {
+            destination = d;
+            de = true;
+        }
+    }
+
+    if(!ori) {
+        origin = "Invalid";
+    }
+
+    if(!de) {
+        destination = "Invalid";
+    }
+    
+}
+
+void Flight::setTime(string t) {
+    if((int) t[0] >= 0 && (int) t[0] <= 24 && t.length() == 2) {
+
+    }
+
+}
