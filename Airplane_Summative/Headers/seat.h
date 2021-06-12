@@ -15,10 +15,16 @@ class Seat {
     public:
         Seat();
         Seat(int x, int y);
+        Seat(const Seat& copy);
         string getName();
         
+        
+        int getRow();
+        int getCol();
+
         bool getBooked();
         void setBooked(bool v);
+        
 
 
 };

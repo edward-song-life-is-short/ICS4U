@@ -18,7 +18,7 @@ void Flight::initializeSeats()
     {
         for (int c = 0; c < cols; c++)
         {
-            Seat *temp = new Seat(c, r + 1);
+            Seat *temp = new Seat(c, r);
             seatingPlan[r][c] = *temp;
         }
     }
@@ -155,33 +155,27 @@ bool Flight::readSeat(string s)
 
 int Flight::available = 10;
 
-void Flight::logCustomer(int r, int c)
+void Flight::logCustomer(Seat s)
 {
     cout << "Congratulations on booking your seat. We need to log some of your personal information:" << endl;
     
-    string info[4];
+    string info[3];
     string l;
 
     cout << "Enter your name:" << endl;
     cin >> info[0];
     cout << "Enter your phone number:" << endl;
     cin >> info[1];
+
     cout << "Enter your address:" << endl;
     cin >> info[2];
 
-    if(c == 0) {
-        l = "A";
-    }
-    else {
-        l = "B";
-    }
 
-    info[3] = to_string(r) + l;
 
     
-    Customer *temp = new Customer(info[0], info[1], info[2], info[3]);
-
-    passengerSeating[r][c] = *temp;
+    Customer *temp = new Customer(info[0], info[1], info[2], s);
+    cout << available;
+    passengerSeating[available] = *temp;
 
     temp->displayCustomer();
 }
@@ -204,8 +198,6 @@ void Flight::bookSeat()
         cout << "Invalid Seat Number, Enter a valid seat:" << endl;
     }
 
-    string seating;
-
     int local_r = newSeat[0] - '0' - 1;
     int local_c;
 
@@ -227,12 +219,13 @@ void Flight::bookSeat()
 
         valid = false;
 
-        logCustomer(local_r, local_c);
+        available--;
+
+        logCustomer(seatingPlan[local_r][local_c]);
 
     }
     else
     {
-        available--;
         cout << "This seat is not available." << endl;
 
         if (available > 0)
@@ -268,11 +261,11 @@ void Flight::displaySeating()
     {
         for (int c = 0; c < cols; c++)
         {
-            seat_d = seatingPlan[r][c];
+           
 
-            if (!seat_d.getBooked())
+            if (!seatingPlan[r][c].getBooked())
             {
-                cout << seat_d.getName() << "   ";
+                cout << seatingPlan[r][c].getName() << "   ";
             }
             else
             {
@@ -285,11 +278,57 @@ void Flight::displaySeating()
 }
 
 void Flight::cancel() {
-    cout << "Seat cancellation:" << endl;
-    cout << "Please verify yourself with your phone number to cancel your booking:" << endl;
+    string n, p, a;
 
-
+    bool key = false;
+    int index;
+    Customer temp;
     
+    while(!key) {
+        cout << "Seat cancellation:" << endl;
+        cout << "You will need to verify yourself with your name, phone number, and address." << endl;
+        cout << "Enter your name:";
+        cin >> n;
+        cout << "Enter your phone number:";
+        cin >> p;
+        cout << "Enter your address:";
+        cin >> a;
+            
+        for(int i = 9; i >= 0; i--) {
+            
+            temp = passengerSeating[i];
+            
+            Customer empty;
+
+            cout << temp.getName();
+
+            if(!temp.getName().compare(n) && !temp.getAddress().compare(a) && !temp.getPhone().compare(p)) { //if name is equal to user name
+                cout << endl << "Credentials Verified" << endl;
+
+                passengerSeating[i] = empty;
+
+                key = true;
+                break;
+            }
+        }
+
+        if(key) {
+            break;
+        }
+        cout << "Your credentials are incorrect." << endl;
+    }
+
+    cout << "Hi " << temp.getName() << " for Flight " << flight << ", seat " << temp.getSeat().getName() << " was cancelled.";
+    
+
+    int ro = temp.getSeat().getRow();
+    int co = temp.getSeat().getCol();
+    seatingPlan[ro][co].setBooked(false);
+
+    cout << "fg:" << temp.getSeat().getRow() << endl;
+    cout << "fd:" << temp.getSeat().getCol()  << endl;
+    cout << temp.getSeat().getBooked() << endl;
+
 }
 
 Flight::~Flight() {}

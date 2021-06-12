@@ -4,20 +4,30 @@
 #include <string>
 using namespace std;
 
+#include "seat.h"
+
 class Customer {
     private:
         
     string phone;
     string name;
     string address;
-    string seat;
+    Seat seat;
 
     public:
         Customer();
-        Customer(string p, string n, string a, string s);
-        
+        Customer(string n, string p, string a, Seat &s);
+        Customer(const Customer&);
+
         void setSeat();
         
+        string getAddress();
+        string getName();
+        string getPhone();
+        Seat getSeat();
+
+        
+
         void displayCustomer();
 };  
 

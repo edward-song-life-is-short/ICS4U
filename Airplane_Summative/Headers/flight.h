@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 #include "customer.h"
 #include "seat.h"
@@ -16,7 +17,7 @@ class Flight
 {
 private:
      Seat seatingPlan[5][2];
-     Customer passengerSeating[5][2];
+     Customer passengerSeating[10];
 
      static int available;
 
@@ -47,7 +48,7 @@ public:
      void setFlightName(int f);
      void setLocation(string o, string d);
 
-     void logCustomer(int, int);
+     void logCustomer(Seat);
      void initializeSeats();
 
      void displaySeating();
@@ -56,7 +57,7 @@ public:
 
      void cancel();
      void searchPassenger();
-
+     
      void output();
 
      ~Flight();
