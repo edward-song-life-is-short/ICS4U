@@ -1,18 +1,24 @@
+#ifndef FLIGHT_H
+#define FLIGHT_H
+
+
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <vector>
+
+#include "customer.h"
+#include "seat.h"
 
 using namespace std;
 
 class Flight
 {
 private:
-     string seatingPlan[5][2] = {
-         {"1a", "1b"},
-         {"2a", "2b"},
-         {"3a", "3b"},
-         {"4a", "4b"},
-         {"5a", "5b"}};
+     Seat seatingPlan[5][2];
+
+
+     static int available;
 
      const string registeredPlanes[10] = {"Boeing 737", "Boeing 737Max", "Boeing 747-8", "Boeing 777x"};
      const string places[6] = {"New York City", "Los Angelos", "Houston", "Phoenix", "Nashville", "Kansas"};
@@ -22,11 +28,15 @@ private:
      string time;
      int flight;
 
+     vector<int> emptySeats;
+
      const int rows = 5;
      const int cols = 2;
 
      bool readSeat(string s);
-     bool checkSeat(string s);
+
+     Customer passenger[10];
+     
 
 public:
      Flight();
@@ -37,9 +47,16 @@ public:
      void setFlightName(int f);
      void setLocation(string o, string d);
 
-     void bookSeat(string s);
+     void logCustomer();
+     void initializeSeats();
+
+     void displaySeating();
+     void bookSeat();
+     void showAvailable();
 
      void output();
 
      ~Flight();
 };
+
+#endif

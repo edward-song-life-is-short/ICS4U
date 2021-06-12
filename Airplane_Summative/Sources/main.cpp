@@ -5,9 +5,11 @@ int main() {
     
     //Display flight info
         real->output();
-
-        real->bookSeat("1a");
-        real->bookSeat("1a");
+        real->displaySeating();
+        real->bookSeat();
+        real->displaySeating();
+        real->bookSeat();
+        
     
     
 

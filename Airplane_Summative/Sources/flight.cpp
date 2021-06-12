@@ -1,5 +1,5 @@
 #include "../Headers/flight.h"
-
+#include "../Headers/customer.h"
 //basic flight from New York to LA that happens 9am every day 
 Flight::Flight() {
     origin = "New York City";
@@ -7,6 +7,17 @@ Flight::Flight() {
     plane = "Boeing 737";
     time = "9am";
     flight = 102343;
+
+    initializeSeats();
+}
+
+void Flight::initializeSeats() {
+    for(int r = 0; r < rows; r++) {
+        for(int c = 0; c < cols; c++) {
+            Seat *temp = new Seat(c, r+1);
+            seatingPlan[r][c] = *temp;
+        }
+    }
 }
 
 Flight::Flight(int num, string plane, string o, string d, string t) {
@@ -14,6 +25,8 @@ Flight::Flight(int num, string plane, string o, string d, string t) {
     this->setPlane(plane);
     this->setLocation(o, d);
     this->setTime(t);
+
+    initializeSeats();
 }
 
 void Flight::setFlightName(int id) {
@@ -113,7 +126,7 @@ bool Flight::readSeat(string s) {
 
     char letter = s[1];
 
-    if(s.length() != 2 || (seatNum < 1 || seatNum > 5) || (letter != 'a' && letter != 'b') ) {
+    if(s.length() != 2 || (seatNum < 1 || seatNum > 5) || (letter != 'a' && letter != 'b' && letter != 'A' && letter != 'B')) {
         valid = false;
     }
 
@@ -121,34 +134,80 @@ bool Flight::readSeat(string s) {
     
 }
 
-//book seat function0
-void Flight::bookSeat(string s) {
-    bool v;
-    
-    v = readSeat(s);
-    string newSeat = s;
+int Flight::available = 10;
 
-    
-    while(!v) {
-        cout << "Invalid Seat Number, Enter a valid seat:" << endl;
+void Flight::logCustomer() {
+    cout << "Congratulations on booking your seat.";
+}
+//book seat function0
+void Flight::bookSeat() {
+    bool valid = false;
+    string newSeat;
+
+    while(!valid) {
+        cout << "Enter the seat you want to book" << endl;;
+
         cin >> newSeat;
 
-        v = readSeat(newSeat);
+        valid = readSeat(newSeat);
+        break;
+        cout << "Invalid Seat Number, Enter a valid seat:" << endl;
     }
+
+    string seating;
+
+    int local_r = newSeat[0] - '0' - 1;
+    int local_c;
+
+    if(newSeat[1] == 'A' || newSeat[1] == 'a') {
+        local_c = 0;
+    }
+    else {
+        local_c = 1;
+    }
+
+    if(!seatingPlan[local_r][local_c].getBooked()) {
+        cout << "Your seat " << newSeat << " has been booked successfully." << endl << endl;
+        seatingPlan[local_r][local_c].setBooked(true);
+    }
+    else {
+        available--;
+        cout << "This seat is not available." << endl;
+
+        if(available > 0) {
+        cout << "Here are the seats that are available:" << endl << endl;
+
+        this->displaySeating();
+        
+        }
+        else {
+            cout << "There are not any other avaiable seats for this flight." << endl << endl;
+        }
+
+        bookSeat();
+    }
+    
+}
+
+void Flight::displaySeating() {
+    cout << "Seating Plan for Flight " << flight << endl;
+    
+    Seat seat_d;
 
     for(int r = 0; r < rows; r++) {
         for(int c = 0; c < cols; c++) {
-            if(!seatingPlan[r][c].compare(newSeat)) { //if the seat is found
-                seatingPlan[r][c] = "x"; 
-                cout << "Your seat " << newSeat << " has been booked successfully." << endl;
-                return;
+            seat_d = seatingPlan[r][c];
+            
+            if(!seat_d.getBooked()) {
+                cout << seat_d.getName() << "   ";
+            }
+            else {
+                cout << "x    ";
             }
         }
+        cout << endl;
     }
-
-    cout << "This seat is not available." << endl;
-    
-
+    cout << endl;
 }
 
 Flight::~Flight() {}
