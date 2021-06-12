@@ -20,6 +20,7 @@ class Seat {
         bool getBooked();
         void setBooked(bool v);
 
+
 };
 
 #endif

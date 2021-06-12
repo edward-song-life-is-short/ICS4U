@@ -16,7 +16,7 @@ class Flight
 {
 private:
      Seat seatingPlan[5][2];
-
+     Customer passengerSeating[5][2];
 
      static int available;
 
@@ -47,12 +47,15 @@ public:
      void setFlightName(int f);
      void setLocation(string o, string d);
 
-     void logCustomer();
+     void logCustomer(int, int);
      void initializeSeats();
 
      void displaySeating();
      void bookSeat();
      void showAvailable();
+
+     void cancel();
+     void searchPassenger();
 
      void output();
 

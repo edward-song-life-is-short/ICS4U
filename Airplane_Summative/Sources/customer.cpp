@@ -15,3 +15,9 @@ Customer::Customer(string n, string p, string a, string s) {
 
 }
 
+void Customer::displayCustomer() {
+    cout << "Name:" << name << endl;
+    cout << "Telephone:" << phone << endl;
+    cout << "Address:" << address << endl;
+    cout << "Seat:" << seat << endl;
+}
