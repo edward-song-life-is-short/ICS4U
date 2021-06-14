@@ -7,11 +7,12 @@ int main() {
         real->output();
         real->displaySeating();
         real->bookSeat();
-        real->displaySeating();
-        real->cancel();
+        
+        real->bookSeat();
+        
         real->displaySeating();
     
-    
+        real->cancelFlight();
 
 
 

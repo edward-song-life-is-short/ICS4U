@@ -27,11 +27,12 @@ Seat::Seat(int x, int y) {
     name = to_string(output_row) + letter; 
 }
 
-Seat::Seat(const Seat&other) {
+Seat& Seat::operator=(const Seat&other) {
     row = other.row;
     col = other.col;
     booked = other.booked;
     name = other.name;
+    return *this;
 }
 
 string Seat::getName() {
@@ -44,8 +45,6 @@ bool Seat::getBooked() {
 
 void Seat::setBooked(bool v) {
     booked = v;
-    cout << "working";
-    cout << v;
 }
 
 int Seat::getCol() {

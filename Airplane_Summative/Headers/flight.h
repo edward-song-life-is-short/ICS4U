@@ -43,6 +43,8 @@ public:
      Flight();
      Flight(int fl_name, string airP, string origin, string destination, string time);
 
+     void intializePassArr();
+     
      void setPlane(string p);
      void setTime(string t);
      void setFlightName(int f);
@@ -58,6 +60,8 @@ public:
      void cancel();
      void searchPassenger();
      
+     void cancelFlight();
+
      void output();
 
      ~Flight();
