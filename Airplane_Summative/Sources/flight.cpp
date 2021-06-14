@@ -24,6 +24,7 @@ void Flight::initializeSeats()
     }
 }
 
+
 Flight::Flight(int num, string plane, string o, string d, string t)
 {
     this->setFlightName(num);
@@ -32,6 +33,16 @@ Flight::Flight(int num, string plane, string o, string d, string t)
     this->setTime(t);
 
     initializeSeats();
+    intializePassArr();
+}
+
+void Flight::intializePassArr() {
+    //create an empty set of passengers in the array
+    for(int i = 0; i < 10; i++) {
+        Customer *empty = new Customer();
+        passenger[i] = *empty;
+    }
+    
 }
 
 void Flight::setFlightName(int id)
@@ -162,31 +173,33 @@ void Flight::logCustomer(Seat s)
     string info[3];
     string l;
 
-    cout << "Enter your name:" << endl;
-    cin >> info[0];
-    cout << "Enter your phone number:" << endl;
-    cin >> info[1];
+    // cout << "Enter your name:" << endl;
+    // cin >> info[0];
+    // cout << "Enter your phone number:" << endl;
+    // cin >> info[1];
 
-    cout << "Enter your address:" << endl;
-    cin >> info[2];
+    // cout << "Enter your address:" << endl;
+    // cin >> info[2];
 
+    info[0] = "1";
+    info[1] = "2";
+    info[2] = "3";
 
-
-    
     Customer *temp = new Customer(info[0], info[1], info[2], s);
-    cout << available;
     passengerSeating[available] = *temp;
 
-    temp->displayCustomer();
+    // temp->displayCustomer();
+
+    delete temp;
 }
 //book seat function
 void Flight::bookSeat()
 {
-    bool valid = false;
+    bool valid;
     string newSeat;
     int exit = 1;
 
-
+    valid = false;
     while (!valid)
     {
         cout << "Enter the seat you want to book:" << endl;
@@ -194,7 +207,11 @@ void Flight::bookSeat()
         cin >> newSeat;
 
         valid = readSeat(newSeat);
-        break;
+        
+        if(valid) {
+            break;
+        }
+        
         cout << "Invalid Seat Number, Enter a valid seat:" << endl;
     }
 
@@ -285,14 +302,18 @@ void Flight::cancel() {
     Customer temp;
     
     while(!key) {
-        cout << "Seat cancellation:" << endl;
-        cout << "You will need to verify yourself with your name, phone number, and address." << endl;
-        cout << "Enter your name:";
-        cin >> n;
-        cout << "Enter your phone number:";
-        cin >> p;
-        cout << "Enter your address:";
-        cin >> a;
+        // cout << "Seat cancellation:" << endl;
+        // cout << "You will need to verify yourself with your name, phone number, and address." << endl;
+        // cout << "Enter your name:";
+        // cin >> n;
+        // cout << "Enter your phone number:";
+        // cin >> p;
+        // cout << "Enter your address:";
+        // cin >> a;
+
+        p = "1";
+        n = "2";
+        a = "3";
             
         for(int i = 9; i >= 0; i--) {
             
@@ -324,10 +345,20 @@ void Flight::cancel() {
     int ro = temp.getSeat().getRow();
     int co = temp.getSeat().getCol();
     seatingPlan[ro][co].setBooked(false);
+}
 
-    cout << "fg:" << temp.getSeat().getRow() << endl;
-    cout << "fd:" << temp.getSeat().getCol()  << endl;
-    cout << temp.getSeat().getBooked() << endl;
+void Flight::cancelFlight() {
+    cout << "This flight has been canceled. These are all the customers on the flight:" << endl;
+    
+    for(int i = 0; i < 10; i++) {
+        Customer temp = passengerSeating[i];
+   
+        if(temp.getName().compare("N/A")) { //if they are not equal 
+            temp.displayCustomer();
+            cout << endl;
+        }
+    
+    }
 
 }
 

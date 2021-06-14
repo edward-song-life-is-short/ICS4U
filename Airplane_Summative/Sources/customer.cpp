@@ -8,7 +8,7 @@ Customer::Customer() {
 
 Customer::Customer(string n, string p, string a, Seat &s) {
     name = n;
-    phone = n;
+    phone = p;
     address = a;
     seat = s;
 
@@ -37,9 +37,11 @@ Seat Customer::getSeat() {
     return seat;
 }
 
-Customer::Customer(const Customer& copy) {
+Customer& Customer::operator=(const Customer& copy) {
     name = copy.name;
     phone = copy.phone;
     address = copy.address;
     seat = copy.seat;
+
+    return *this;
 }

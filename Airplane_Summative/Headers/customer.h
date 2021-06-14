@@ -17,7 +17,7 @@ class Customer {
     public:
         Customer();
         Customer(string n, string p, string a, Seat &s);
-        Customer(const Customer&);
+        Customer& operator=(const Customer&);
 
         void setSeat();
         

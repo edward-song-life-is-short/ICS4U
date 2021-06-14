@@ -15,7 +15,7 @@ class Seat {
     public:
         Seat();
         Seat(int x, int y);
-        Seat(const Seat& copy);
+        Seat& operator=(const Seat& copy);
         string getName();
         
         
