@@ -24,6 +24,15 @@ void Flight::initializeSeats()
     }
 }
 
+Flight& Flight::operator=(const Flight& copy) {
+    origin = copy.origin;
+    destination = copy.destination;
+    plane = copy.plane;
+    time = copy.time;
+    flight = copy.flight;
+
+    return *this;
+}
 
 Flight::Flight(int num, string plane, string o, string d, string t)
 {
@@ -35,6 +44,20 @@ Flight::Flight(int num, string plane, string o, string d, string t)
     initializeSeats();
     intializePassArr();
 }
+
+int Flight::flightNum = 0;
+
+Flight::Flight(int p, int o, int d, int t) {
+    
+    flight = 100000 + flightNum; 
+    plane = registeredPlanes[p];
+    origin = places[o];
+    destination = places[d];
+    time = to_string(t) + "pm";
+
+    flightNum++;
+}
+
 
 void Flight::intializePassArr() {
     //create an empty set of passengers in the array
@@ -136,7 +159,7 @@ void Flight::output()
 
     cout << "Flight Number:" << flight << endl;
 
-    if (!origin.compare("Invalid") && !destination.compare("Invalid"))
+    if (origin.compare("Invalid") && destination.compare("Invalid"))
         cout << "Origin to Destination:" << origin << " to " << destination << endl;
     else
         cout << "Origin to destination: Invalid" << endl;
@@ -164,7 +187,7 @@ bool Flight::readSeat(string s)
     return valid;
 }
 
-int Flight::available = 10;
+
 
 void Flight::logCustomer(Seat s)
 {
@@ -211,7 +234,7 @@ void Flight::bookSeat()
         if(valid) {
             break;
         }
-        
+
         cout << "Invalid Seat Number, Enter a valid seat:" << endl;
     }
 
@@ -360,6 +383,18 @@ void Flight::cancelFlight() {
     
     }
 
+}
+
+string Flight::returnLocation() {
+    return origin + " to " + destination;
+}
+
+string Flight::returnTime() {
+    return time;
+}
+
+int Flight::returnFlight() {
+    return flight;
 }
 
 Flight::~Flight() {}

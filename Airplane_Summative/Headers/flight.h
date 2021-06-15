@@ -7,6 +7,7 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
+#include <ctime>
 
 #include "customer.h"
 #include "seat.h"
@@ -19,10 +20,10 @@ private:
      Seat seatingPlan[5][2];
      Customer passengerSeating[10];
 
-     static int available;
+     int available = 10;
 
-     const string registeredPlanes[10] = {"Boeing 737", "Boeing 737Max", "Boeing 747-8", "Boeing 777x"};
-     const string places[6] = {"New York City", "Los Angelos", "Houston", "Phoenix", "Nashville", "Kansas"};
+     const string registeredPlanes[4] = {"Boeing 737", "Boeing 737Max", "Boeing 747-8", "Boeing 777x"};
+     const string places[10] = {"New York City", "Los Angelos", "Houston", "Phoenix", "Nashville", "Kansas", "Nevada", "Austin", "Chicago", "Las Vegas"};
 
      string origin, destination;
      string plane;
@@ -38,13 +39,15 @@ private:
 
      Customer passenger[10];
      
+     static int flightNum;
 
 public:
      Flight();
      Flight(int fl_name, string airP, string origin, string destination, string time);
+     Flight(int, int, int, int);
 
      void intializePassArr();
-     
+
      void setPlane(string p);
      void setTime(string t);
      void setFlightName(int f);
@@ -63,6 +66,12 @@ public:
      void cancelFlight();
 
      void output();
+     
+     int returnFlight();
+     string returnLocation();
+     string returnTime();
+     
+     Flight& operator =(const Flight&);
 
      ~Flight();
 };

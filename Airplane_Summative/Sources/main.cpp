@@ -1,22 +1,14 @@
 #include "../Headers/flight.h"
+#include "../Headers/flightList.h"
 
 int main() {
-    Flight *real = new Flight(123456, "Boeing 737", "New York City", "Los Angelos", "10am");
+    srand((unsigned) time(0));
     
-    //Display flight info
-        real->output();
-        real->displaySeating();
-        real->bookSeat();
-        
-        real->bookSeat();
-        
-        real->displaySeating();
-    
-        real->cancelFlight();
-
+    flightList *test = new flightList();
+    test->selectFlight();
 
 
     // delete bo;
     // delete test;
-    delete real;
+    delete test;
 }
