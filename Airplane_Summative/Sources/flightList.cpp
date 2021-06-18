@@ -1,6 +1,7 @@
 #include "../Headers/flightList.h"
 
 int flightList::numFlights = 0;
+int flightList::totalProfit = 0;
 
 flightList::flightList()
 {
@@ -78,6 +79,7 @@ void flightList::selectFlight()
         cout << "2. Cancel a seat" << endl;
         cout << "3. Book a seat." << endl;
         cout << "4. Display flight seating" << endl;
+        cout << "5. Show profits" << endl;
 
         cin >> modeSelect;
 
@@ -96,6 +98,9 @@ void flightList::selectFlight()
         else if(modeSelect == 4) {
             displayFlight(select-1);
         }
+        else if(modeSelect == 5) {
+            cout << totalProfit << "$ gathered." << endl;
+        }
         else
         {
             bookFlight(select - 1);
@@ -104,23 +109,40 @@ void flightList::selectFlight()
     }
 }
 
+
+
 void flightList::displayFlight(int id) {
     flightArr[id].displaySeating();
 }
 
 void flightList::bookFlight(int id)
 {
+    int origin = flightArr[id].returnFlightCash();
+    
     flightArr[id].bookSeat();
+    totalProfit += (flightArr[id].returnFlightCash() - origin); 
+    
+    cout << "test" << flightArr[id].returnFlightCash() << endl;
+    
     flightArr[id].displaySeating();
 }
 
 void flightList::cancelFlight(int id)
 {
+    int origin = flightArr[id].returnFlightCash();
+    
     flightArr[id].cancelFlight();
+
+    totalProfit -= (origin - flightArr[id].returnFlightCash());
+
 
     Flight *empty = new Flight();
 
     flightArr[id] = *empty;
 
     delete empty;
+}
+
+int flightList::returnCash() {
+    return totalProfit;
 }

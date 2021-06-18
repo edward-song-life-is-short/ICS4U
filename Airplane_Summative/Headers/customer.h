@@ -12,11 +12,12 @@ class Customer {
     string phone;
     string name;
     string address;
+    string credit_card;
     Seat seat;
 
     public:
         Customer();
-        Customer(string n, string p, string a, Seat &s);
+        Customer(string n, string p, string a, string c, Seat &s);
         Customer& operator=(const Customer&);
 
         void setSeat();
@@ -25,6 +26,7 @@ class Customer {
         string getName();
         string getPhone();
         Seat getSeat();
+        string getCredit();
 
         
 

@@ -18,6 +18,7 @@ class Flight
 {
 private:
      Seat seatingPlan[5][2];
+
      Customer passengerSeating[10];
 
      int available = 10;
@@ -40,6 +41,7 @@ private:
      Customer passenger[10];
      
      static int flightNum;
+     static int flightProfit;
 
 public:
      Flight();
@@ -53,7 +55,7 @@ public:
      void setFlightName(int f);
      void setLocation(string o, string d);
 
-     void logCustomer(Seat);
+     void logCustomer(Seat&);
      void initializeSeats();
 
      void displaySeating();
@@ -71,6 +73,8 @@ public:
      string returnLocation();
      string returnTime();
      
+     int returnFlightCash();
+
      Flight& operator =(const Flight&);
 
      ~Flight();

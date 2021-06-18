@@ -10,7 +10,15 @@ class Seat {
         int row, col;
         string name;
         bool booked;
+        bool business;
 
+        string econPerks[3] = {"in-flight entertainment", "leather seats", "beverage refreshments"};
+        string busiPerks[3] = {"larger entertainment screens", "fully-reclinable seats", "full meal course"};
+
+        const int econPrice = 800;
+        const int busiPrice = 1200;
+
+        const int perkSize = 3;
 
     public:
         Seat();
@@ -25,7 +33,12 @@ class Seat {
         bool getBooked();
         void setBooked(bool v);
         
+        bool returnBusiness();
+        void setBusiness(bool b);
 
+        void displayPerks();
+
+        int returnPrice();
 
 };
 

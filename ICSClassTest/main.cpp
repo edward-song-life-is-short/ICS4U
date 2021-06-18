@@ -10,6 +10,8 @@ int closerValue(int v1, int v2, int tar) {
         return v1;
 }
 
+//set min value to the first index, swap first value with any values in preceding elements if they are larger
+//once the lowest value has been sorted into min index, the min index is increased to sort that value 
 void selectionSort(Villan arr[], int n)
 {
     int i, min;
@@ -29,6 +31,9 @@ void selectionSort(Villan arr[], int n)
 }
 
 //bubble sort 
+
+//checks the adjacent elements that are side by side and swaps them if they are out of order
+//passes the array for n-1 times
 void bubbleSort(Villan arr[], int n) {
     for (int i = 0; i < n-1; i++)    
 		for (int g = 0; g < n-i-1; g++)
@@ -49,6 +54,7 @@ void printVillanArr(Villan arr[], int n) {
 //t is target value
 int findClosestBin_Search(Villan arr[], int n, int t) {
 
+	//if the value is less than or greater the smallest/biggest number
 	if (t <= arr[0].getStrength())
 			return arr[0].getStrength();
 		if (t >= arr[n - 1].getStrength())
@@ -56,9 +62,13 @@ int findClosestBin_Search(Villan arr[], int n, int t) {
 	
 		
 		int i = 0, co = n, mid = 0;
+		
+		
 		while (i < co) {
+			//find the middle of the array 
 			mid = (i + co) / 2;
-	
+			
+			//find mid value 
 			if (arr[mid].getStrength() == t)
 				return arr[mid].getStrength();
 	
@@ -66,6 +76,7 @@ int findClosestBin_Search(Villan arr[], int n, int t) {
 			if (t < arr[mid].getStrength()) {
 	
 				//return closest value between two vil elements
+				//checks if the target fits between the mid and previous element
 				if (mid > 0 && t > arr[mid - 1].getStrength())
 					return closerValue(arr[mid - 1].getStrength(),
 									arr[mid].getStrength(), t);
@@ -73,7 +84,8 @@ int findClosestBin_Search(Villan arr[], int n, int t) {
 				co = mid;
 				cout << "mid1:" << mid << endl;
 			}
-			else {
+			else { //search rght
+				//check if value is sandwachied between mid and next closest value
 				if (mid < n - 1 && t < arr[mid + 1].getStrength())
 					return closerValue(arr[mid].getStrength(),
 									arr[mid + 1].getStrength(), t);

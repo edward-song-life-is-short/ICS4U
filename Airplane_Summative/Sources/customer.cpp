@@ -6,11 +6,12 @@ Customer::Customer() {
     address = "N/A";
 }
 
-Customer::Customer(string n, string p, string a, Seat &s) {
+Customer::Customer(string n, string p, string a, string c, Seat &s) {
     name = n;
     phone = p;
     address = a;
     seat = s;
+    credit_card = c;
 
 }
 
@@ -35,6 +36,10 @@ string Customer::getPhone() {
 
 Seat Customer::getSeat() {
     return seat;
+}
+
+string Customer::getCredit() {
+    return credit_card;
 }
 
 Customer& Customer::operator=(const Customer& copy) {

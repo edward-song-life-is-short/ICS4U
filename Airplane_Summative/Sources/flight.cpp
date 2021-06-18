@@ -1,6 +1,9 @@
 #include "../Headers/flight.h"
 #include "../Headers/customer.h"
 //basic flight from New York to LA that happens 9am every day
+
+int Flight::flightProfit = 0;
+
 Flight::Flight()
 {
     origin = "New York City";
@@ -18,7 +21,17 @@ void Flight::initializeSeats()
     {
         for (int c = 0; c < cols; c++)
         {
+            
             Seat *temp = new Seat(c, r);
+
+            if(r < 2) {
+                temp->setBusiness(true);    
+                cout <<"pls" <<  temp->returnBusiness();
+            }
+            else {
+                temp->setBusiness(false);
+            }
+
             seatingPlan[r][c] = *temp;
         }
     }
@@ -189,29 +202,35 @@ bool Flight::readSeat(string s)
 
 
 
-void Flight::logCustomer(Seat s)
+void Flight::logCustomer(Seat& s)
 {
     cout << "Congratulations on booking your seat. We need to log some of your personal information:" << endl;
     
-    string info[3];
+    string info[4];
     string l;
 
     // cout << "Enter your name:" << endl;
     // cin >> info[0];
     // cout << "Enter your phone number:" << endl;
     // cin >> info[1];
-
     // cout << "Enter your address:" << endl;
     // cin >> info[2];
+    //cout << "Enter credit card info:" << endl;
+    //cout << 
 
     info[0] = "1";
     info[1] = "2";
     info[2] = "3";
+    info[3] = "4";
 
-    Customer *temp = new Customer(info[0], info[1], info[2], s);
+    Customer *temp = new Customer(info[0], info[1], info[2], info[3], s);
     passengerSeating[available] = *temp;
 
-    // temp->displayCustomer();
+    cout << "This ticket has been purchased for " << s.returnPrice() << ". Customer Information:" << endl;
+    
+    flightProfit += s.returnPrice();
+
+    temp->displayCustomer();
 
     delete temp;
 }
@@ -256,10 +275,22 @@ void Flight::bookSeat()
              << endl;
         
         seatingPlan[local_r][local_c].setBooked(true);
-
         valid = false;
 
         available--;
+
+        int pricing = seatingPlan[local_r][local_c].returnPrice();
+
+
+        if(seatingPlan[local_r][local_c].returnBusiness()) {
+            cout << "This is a business class seat that costs " << pricing << endl;
+            
+        }
+        else {
+            cout << "This is an economy class seat that costs " << pricing << "$" << endl;
+        }
+
+        seatingPlan[local_r][local_c].displayPerks();
 
         logCustomer(seatingPlan[local_r][local_c]);
 
@@ -302,7 +333,6 @@ void Flight::displaySeating()
         for (int c = 0; c < cols; c++)
         {
            
-
             if (!seatingPlan[r][c].getBooked())
             {
                 cout << seatingPlan[r][c].getName() << "   ";
@@ -326,12 +356,12 @@ void Flight::cancel() {
     
     while(!key) {
         // cout << "Seat cancellation:" << endl;
-        // cout << "You will need to verify yourself with your name, phone number, and address." << endl;
+        // cout << "You will need to verify yourself with your name, phone number, and credit card." << endl;
         // cout << "Enter your name:";
         // cin >> n;
         // cout << "Enter your phone number:";
         // cin >> p;
-        // cout << "Enter your address:";
+        // cout << "Enter your credit card:";
         // cin >> a;
 
         p = "1";
@@ -346,7 +376,7 @@ void Flight::cancel() {
 
             cout << temp.getName();
 
-            if(!temp.getName().compare(n) && !temp.getAddress().compare(a) && !temp.getPhone().compare(p)) { //if name is equal to user name
+            if(!temp.getName().compare(n) && !temp.getCredit().compare(a) && !temp.getPhone().compare(p)) { //if name is equal to user name
                 cout << endl << "Credentials Verified" << endl;
 
                 passengerSeating[i] = empty;
@@ -364,6 +394,7 @@ void Flight::cancel() {
 
     cout << "Hi " << temp.getName() << " for Flight " << flight << ", seat " << temp.getSeat().getName() << " was cancelled.";
     
+    flightProfit -= temp.getSeat().returnPrice();
 
     int ro = temp.getSeat().getRow();
     int co = temp.getSeat().getCol();
@@ -395,6 +426,10 @@ string Flight::returnTime() {
 
 int Flight::returnFlight() {
     return flight;
+}
+
+int Flight::returnFlightCash() {
+    return flightProfit;
 }
 
 Flight::~Flight() {}
