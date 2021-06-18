@@ -75,6 +75,9 @@ public:
      
      int returnFlightCash();
 
+     void sortArray();
+     void swapElements(Customer*, Customer*);
+
      Flight& operator =(const Flight&);
 
      ~Flight();

@@ -53,8 +53,7 @@ void flightList::selectFlight()
     int select = 0;
     int modeSelect = -1;
 
-    cout << endl
-         << "Select your flight to either cancel/book:" << endl;
+   
 
     while (modeSelect < 0 || modeSelect > 3)
     {
@@ -63,8 +62,10 @@ void flightList::selectFlight()
 
         for (int i = 0; i < numFlights; i++)
         {
-            cout << i + 1 << "."
-                 << "Flight " << flightArr[i].returnFlight() << " from " << flightArr[i].returnLocation() << " at " << flightArr[i].returnTime() << endl;
+            if(flightArr[i].returnFlight() == 0)
+                continue;
+            
+            cout << i + 1 << "." << "Flight " << flightArr[i].returnFlight() << " from " << flightArr[i].returnLocation() << " at " << flightArr[i].returnTime() << endl;
         }
 
         while (select <= 0 || select > 10)
@@ -72,7 +73,7 @@ void flightList::selectFlight()
             cout << "Select a flight using values 1 -> 10" << endl;
             cin >> select;
         }
-
+ 
         cout << "Select the options you want with the corresponding numbers (e.g 1):" << endl;
         cout << "0. Exit program" << endl;
         cout << "1. Cancel a flight" << endl;
@@ -82,6 +83,8 @@ void flightList::selectFlight()
         cout << "5. Show profits" << endl;
 
         cin >> modeSelect;
+
+        
 
         if (modeSelect == 1)
         {
@@ -106,10 +109,18 @@ void flightList::selectFlight()
             bookFlight(select - 1);
             modeSelect = -1;
         }
+
+        select = 0;
     }
 }
 
-
+void flightList::cancelSeat(int id) {
+    int origin = flightArr[id].returnFlightCash();
+    
+    flightArr[id].cancel();
+    
+    totalProfit -= (origin - flightArr[id].returnFlightCash());
+}
 
 void flightList::displayFlight(int id) {
     flightArr[id].displaySeating();
@@ -117,8 +128,13 @@ void flightList::displayFlight(int id) {
 
 void flightList::bookFlight(int id)
 {
-    int origin = flightArr[id].returnFlightCash();
+    if(flightArr[id].returnFlight() == 0) {
+        cout << "This flight has been cancelled." << endl;
+        return;
+    }
     
+    int origin = flightArr[id].returnFlightCash();
+
     flightArr[id].bookSeat();
     totalProfit += (flightArr[id].returnFlightCash() - origin); 
     
@@ -129,11 +145,10 @@ void flightList::bookFlight(int id)
 
 void flightList::cancelFlight(int id)
 {
-    int origin = flightArr[id].returnFlightCash();
-    
+   
     flightArr[id].cancelFlight();
 
-    totalProfit -= (origin - flightArr[id].returnFlightCash());
+    totalProfit -= flightArr[id].returnFlightCash();
 
 
     Flight *empty = new Flight();

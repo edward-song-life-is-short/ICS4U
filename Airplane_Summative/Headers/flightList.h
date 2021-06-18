@@ -20,10 +20,11 @@ class flightList {
 
         void selectFlight();
         
-        void cancelSeat();
+        void cancelSeat(int flight_id);
         void bookFlight(int flight_id);
         void displayFlight(int flight_id);
         
+
         int returnCash();
 
 

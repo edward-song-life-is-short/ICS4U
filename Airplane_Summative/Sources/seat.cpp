@@ -66,7 +66,6 @@ int Seat::getRow() {
 
 int Seat::returnPrice() {
     if(business) {
-        cout << "testasda";
         return busiPrice;
     }
     else {

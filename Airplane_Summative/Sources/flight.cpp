@@ -6,11 +6,11 @@ int Flight::flightProfit = 0;
 
 Flight::Flight()
 {
-    origin = "New York City";
-    destination = "Los Angelos";
-    plane = "Boeing 737";
-    time = "9am";
-    flight = 102343;
+    origin = "N/A";
+    destination = "N/A";
+    plane = "N/A";
+    time = "N/A";
+    flight = 0;
 
     initializeSeats();
 }
@@ -26,7 +26,6 @@ void Flight::initializeSeats()
 
             if(r < 2) {
                 temp->setBusiness(true);    
-                cout <<"pls" <<  temp->returnBusiness();
             }
             else {
                 temp->setBusiness(false);
@@ -224,7 +223,7 @@ void Flight::logCustomer(Seat& s)
     info[3] = "4";
 
     Customer *temp = new Customer(info[0], info[1], info[2], info[3], s);
-    passengerSeating[available] = *temp;
+    passengerSeating[10 - available - 1] = *temp;
 
     cout << "This ticket has been purchased for " << s.returnPrice() << ". Customer Information:" << endl;
     
@@ -244,6 +243,8 @@ void Flight::bookSeat()
     valid = false;
     while (!valid)
     {
+        this->displaySeating();
+        
         cout << "Enter the seat you want to book:" << endl;
 
         cin >> newSeat;
@@ -366,7 +367,7 @@ void Flight::cancel() {
 
         p = "1";
         n = "2";
-        a = "3";
+        a = "4";
             
         for(int i = 9; i >= 0; i--) {
             
@@ -401,12 +402,51 @@ void Flight::cancel() {
     seatingPlan[ro][co].setBooked(false);
 }
 
+//use modified selection sort to sort the array of passenger by seats 
+void Flight::sortArray() {
+    cout << "Passengers have been sorted by their seats:" << endl;
+    
+    int min;
+    int n = 10 - available; //only sort customer seats that have been booked since the rest of the elements have not been intialized with customer information just "n/a" in the default constructor 
+
+    for (int i = 0; i < n-1; i++)
+    {
+        min = i;
+        
+        for (int j = i + 1; j < n; j++) {
+            Customer tempCus = passengerSeating[j];
+            cout << "tets";
+            //indexes of passenger seat 
+            int ind1 = tempCus.getSeat().getName()[0] - '0';
+            char ind2 = tempCus.getSeat().getName()[1];
+			int comp1 = passengerSeating[min].getSeat().getName()[0] - '0';
+            char comp2 = passengerSeating[min].getSeat().getName()[1];
+
+
+			cout << "i1 " << ind1 << " i2 " << ind2 << " c1 " << comp1 << " c2 " << comp2;
+
+         
+            if (ind1 <= comp1 && ind2 <= comp2)
+                min = j;
+    
+            // Swap the found minimum element with the first element
+            Customer temp = passengerSeating[min];
+            passengerSeating[min] = passengerSeating[i];
+            passengerSeating[i] = temp; 
+    
+        }
+    
+    }
+}
+
 void Flight::cancelFlight() {
     cout << "This flight has been canceled. These are all the customers on the flight:" << endl;
     
+    sortArray();
+
     for(int i = 0; i < 10; i++) {
         Customer temp = passengerSeating[i];
-   
+
         if(temp.getName().compare("N/A")) { //if they are not equal 
             temp.displayCustomer();
             cout << endl;
@@ -416,6 +456,8 @@ void Flight::cancelFlight() {
 
 }
 
+
+//accessor fucntions 
 string Flight::returnLocation() {
     return origin + " to " + destination;
 }
