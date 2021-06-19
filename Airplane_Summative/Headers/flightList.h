@@ -8,13 +8,16 @@
 
 class flightList {
     private:
+        //dynamic array of flights
         Flight *flightArr;
+
+        //count flights made
         static int numFlights;
         static int totalProfit;
     
     public:
         flightList();
-        flightList(int n_arr);
+        flightList(int n_arr); //generate n number of flights
 
         void cancelFlight(int flight_id);
 
@@ -29,6 +32,8 @@ class flightList {
 
 
         void deAllocate();
+
+        ~flightList();
 
 
 

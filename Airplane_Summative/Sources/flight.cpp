@@ -247,10 +247,7 @@ void Flight::logCustomer(Seat &s)
 
 }
 
-void Flight::setArrSize(int n) {
-	available = n;
-	size = n;
-}
+
 //book seat function
 void Flight::bookSeat()
 {

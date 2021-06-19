@@ -87,3 +87,5 @@ void Seat::displayPerks() {
 
     cout << endl;
 }
+
+Seat::~Seat() {}

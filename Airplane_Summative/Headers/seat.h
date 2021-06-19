@@ -7,14 +7,17 @@ using namespace std;
 
 class Seat {
     private:
+        //seat info
         int row, col;
         string name;
         bool booked;
         bool business;
 
-        string econPerks[3] = {"in-flight entertainment", "leather seats", "beverage refreshments"};
-        string busiPerks[3] = {"larger entertainment screens", "fully-reclinable seats", "full meal course"};
+        //seat string info
+        const string econPerks[3] = {"in-flight entertainment", "leather seats", "beverage refreshments"};
+        const string busiPerks[3] = {"larger entertainment screens", "fully-reclinable seats", "full meal course"};
 
+        //prices
         const int econPrice = 800;
         const int busiPrice = 1200;
 
@@ -23,22 +26,26 @@ class Seat {
     public:
         Seat();
         Seat(int x, int y);
-        Seat& operator=(const Seat& copy);
+        Seat& operator=(const Seat& copy); //operator overloading
+        
+        
+        //accessor functions
         string getName();
-        
-        
         int getRow();
         int getCol();
-
         bool getBooked();
-        void setBooked(bool v);
-        
         bool returnBusiness();
+        int returnPrice();
+        
+        //mutators
         void setBusiness(bool b);
+        void setBooked(bool v);
 
         void displayPerks();
 
-        int returnPrice();
+        ~Seat();
+
+        
 
 };
 

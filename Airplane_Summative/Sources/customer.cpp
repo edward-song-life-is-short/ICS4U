@@ -52,3 +52,5 @@ Customer& Customer::operator=(const Customer& copy) {
 
     return *this;
 }
+
+Customer::~Customer() {}

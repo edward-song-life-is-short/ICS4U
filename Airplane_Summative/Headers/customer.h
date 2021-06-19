@@ -8,20 +8,22 @@ using namespace std;
 
 class Customer {
     private:
-        
-    string phone;
-    string name;
-    string address;
-    string credit_card;
-    Seat seat;
+        //customer information
+        string phone;
+        string name;
+        string address;
+        string credit_card;
+        Seat seat;
 
     public:
         Customer();
-        Customer(string n, string p, string a, string c, Seat &s);
-        Customer& operator=(const Customer&);
+        Customer(string n, string p, string a, string c, Seat &s); //parameterized constructor
+        Customer& operator=(const Customer&); //overloading
 
+        //mutator
         void setSeat();
         
+        //accessor functions
         string getAddress();
         string getName();
         string getPhone();
@@ -29,8 +31,10 @@ class Customer {
         string getCredit();
 
         
-
+        //show customer info
         void displayCustomer();
+
+        ~Customer();
 };  
 
 

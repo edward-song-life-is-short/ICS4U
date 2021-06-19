@@ -179,3 +179,5 @@ void flightList::cancelFlight(int id)
 int flightList::returnCash() {
     return totalProfit;
 }
+
+flightList::~flightList() {}
