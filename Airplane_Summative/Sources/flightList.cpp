@@ -21,11 +21,12 @@ flightList::flightList()
 
         Flight *temp = new Flight(r_p, r_o, r_d, r_ti);
         flightArr[i] = *temp;
+
     }
 }
 
 flightList::flightList(int n)
-{
+{   
     numFlights = n;
 
     flightArr = new Flight[n];
@@ -41,19 +42,37 @@ flightList::flightList(int n)
 
         Flight *temp = new Flight(r_p, r_o, r_d, r_ti);
         flightArr[i] = *temp;
+
     }
+
+    cout << n << " Flight(s) have been generated" << endl;
 }
 
 void flightList::deAllocate() {
     delete [] flightArr;
 }
 
+void flightList::testings(int ns) {
+   for(int i = 0; i < ns; i++) {
+			
+		flightArr[i].setTestVar(true);
+		bookFlight(i);
+		cancelSeat(i);
+		displayFlight(i);
+		bookFlight(i);
+		
+		cout << "Total profit:" << totalProfit << endl;
+	}
+
+}
+
 void flightList::selectFlight()
 {
     int select = 0;
     int modeSelect = -1;
-
-   
+    bool testing = false;
+    int input = 0;
+    
 
     while (modeSelect < 0 || modeSelect > 3)
     {
@@ -89,14 +108,14 @@ void flightList::selectFlight()
         if (modeSelect == 1)
         {
             cancelFlight(select - 1);
-            modeSelect = -1;
         }
         else if (modeSelect == 2)
         {
+            cancelSeat(select - 1);
         }
         else if (modeSelect == 0)
         {
-            break;
+            return;
         }
         else if(modeSelect == 4) {
             displayFlight(select-1);
@@ -107,9 +126,9 @@ void flightList::selectFlight()
         else
         {
             bookFlight(select - 1);
-            modeSelect = -1;
         }
 
+        modeSelect = -1;
         select = 0;
     }
 }
@@ -138,7 +157,6 @@ void flightList::bookFlight(int id)
     flightArr[id].bookSeat();
     totalProfit += (flightArr[id].returnFlightCash() - origin); 
     
-    cout << "test" << flightArr[id].returnFlightCash() << endl;
     
     flightArr[id].displaySeating();
 }

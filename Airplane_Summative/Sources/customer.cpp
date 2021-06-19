@@ -4,6 +4,7 @@ Customer::Customer() {
     name = "N/A";
     phone = "N/A";
     address = "N/A";
+    credit_card = "N/A";
 }
 
 Customer::Customer(string n, string p, string a, string c, Seat &s) {
@@ -47,6 +48,7 @@ Customer& Customer::operator=(const Customer& copy) {
     phone = copy.phone;
     address = copy.address;
     seat = copy.seat;
+    credit_card = copy.credit_card;
 
     return *this;
 }
