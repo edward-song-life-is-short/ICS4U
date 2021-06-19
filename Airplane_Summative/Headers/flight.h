@@ -92,9 +92,6 @@ public:
      //sort seating array so that customers organized by seat
      void sortArray();
 
-     //used in the sort
-     void swapElements(Customer*, Customer*);
-
      Flight& operator =(const Flight&); //overloading
 
      ~Flight();

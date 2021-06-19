@@ -1,8 +1,10 @@
 #include "../Headers/flightList.h"
 
+//initialize static variables 
 int flightList::numFlights = 0;
 int flightList::totalProfit = 0;
 
+//default constructor -> 10 flights, with random values, origin, destination, etc
 flightList::flightList()
 {
 
@@ -21,10 +23,12 @@ flightList::flightList()
 
         Flight *temp = new Flight(r_p, r_o, r_d, r_ti);
         flightArr[i] = *temp;
+        delete temp;
 
     }
 }
 
+//constructor used for testing -> generate n number of flights 
 flightList::flightList(int n)
 {   
     numFlights = n;
@@ -35,37 +39,45 @@ flightList::flightList(int n)
 
     for (int i = 0; i < n; i++)
     {
+        //random values
         r_p = rand() % 3;
         r_o = rand() % 4;
         r_d = (rand() % 5) + 4;
         r_ti = (rand() % 12) + 1;
 
+        //dynamic object 
         Flight *temp = new Flight(r_p, r_o, r_d, r_ti);
         flightArr[i] = *temp;
-
+        delete temp;
     }
 
     cout << n << " Flight(s) have been generated" << endl;
 }
 
+//deallocate dynamic memory 
 void flightList::deAllocate() {
     delete [] flightArr;
 }
 
 void flightList::testings(int ns) {
    for(int i = 0; i < ns; i++) {
-			
+		//set testing mode on
 		flightArr[i].setTestVar(true);
-		bookFlight(i);
-		cancelSeat(i);
-		displayFlight(i);
-		bookFlight(i);
 		
-		cout << "Total profit:" << totalProfit << endl;
+        //testing stability and functionality 
+        
+        //book every seat on the flight
+        bookFlight(i);
+		cancelSeat(i); //cancel every seat
+		displayFlight(i); //display flight status
+		bookFlight(i); //book every seat
+		//find revenue generated
+		cout << "Total Revenue:" << totalProfit << endl;
 	}
 
 }
 
+//flight selection
 void flightList::selectFlight()
 {
     int select = 0;
@@ -79,14 +91,16 @@ void flightList::selectFlight()
 
         cout << "Here are the list of flights you can select from" << endl;
 
+        //output flight info
         for (int i = 0; i < numFlights; i++)
         {
             if(flightArr[i].returnFlight() == 0)
                 continue;
             
             cout << i + 1 << "." << "Flight " << flightArr[i].returnFlight() << " from " << flightArr[i].returnLocation() << " at " << flightArr[i].returnTime() << endl;
-        }
+        }   
 
+        //input check
         while (select <= 0 || select > 10)
         {
             cout << "Select a flight using values 1 -> 10" << endl;
@@ -104,7 +118,7 @@ void flightList::selectFlight()
         cin >> modeSelect;
 
         
-
+        //call diff functiosn corresponding to flight info
         if (modeSelect == 1)
         {
             cancelFlight(select - 1);
@@ -138,6 +152,7 @@ void flightList::cancelSeat(int id) {
     
     flightArr[id].cancel();
     
+    //find new revenue
     totalProfit -= (origin - flightArr[id].returnFlightCash());
 }
 
@@ -161,6 +176,7 @@ void flightList::bookFlight(int id)
     flightArr[id].displaySeating();
 }
 
+//deletion of flights
 void flightList::cancelFlight(int id)
 {
    

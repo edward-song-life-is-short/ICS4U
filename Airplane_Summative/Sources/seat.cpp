@@ -8,6 +8,7 @@ Seat::Seat() {
     name = "N/A";
 }
 
+//find seat info
 Seat::Seat(int x, int y) {
     col = x;
     row = y;
@@ -24,6 +25,7 @@ Seat::Seat(int x, int y) {
         letter = "B";
     }
 
+    //generat names of all the seats 
     name = to_string(output_row) + letter; 
 }
 
@@ -76,6 +78,7 @@ int Seat::returnPrice() {
 void Seat::displayPerks() {
     cout << "The features offered by this seat:" << endl;
     
+    //output features
     for(int i = 0; i < perkSize; i++) {
         if(business) {
             cout << busiPerks[i] << ", ";

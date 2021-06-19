@@ -16,6 +16,7 @@ Flight::Flight()
     initializeSeats();
 }
 
+//declare empty seats, determine business and economy seats 
 void Flight::initializeSeats()
 {
     for (int r = 0; r < rows; r++)
@@ -23,8 +24,10 @@ void Flight::initializeSeats()
         for (int c = 0; c < cols; c++)
         {
 
+            //dynamic objects
             Seat *temp = new Seat(c, r);
 
+            //first 2 rows of seats are business class
             if (r < 2)
             {
                 temp->setBusiness(true);
@@ -35,10 +38,14 @@ void Flight::initializeSeats()
             }
 
             seatingPlan[r][c] = *temp;
+
+            //clear some memory 
+            delete temp;
         }
     }
 }
 
+//deep copy, operator overloading 
 Flight &Flight::operator=(const Flight &copy)
 {
     origin = copy.origin;
@@ -50,6 +57,7 @@ Flight &Flight::operator=(const Flight &copy)
     return *this;
 }
 
+//manual flight constructor -> input specific info
 Flight::Flight(int num, string plane, string o, string d, string t)
 {
     this->setFlightName(num);
@@ -57,7 +65,7 @@ Flight::Flight(int num, string plane, string o, string d, string t)
     this->setLocation(o, d);
     this->setTime(t);
 
-	
+	//iniatialize 
     initializeSeats();
     intializePassArr();
 }
@@ -66,7 +74,7 @@ int Flight::flightNum = 0;
 
 Flight::Flight(int p, int o, int d, int t)
 {
-
+    //random generation of flights, using values from constant static arrays
     flight = 100000 + flightNum;
     plane = registeredPlanes[p];
     origin = places[o];
@@ -93,6 +101,7 @@ void Flight::setFlightName(int id)
 {
     stringstream id_str;
     id_str << id;
+    //input checks
     if (id_str.str().length() == 6)
     {
         this->flight = id;
@@ -105,6 +114,7 @@ void Flight::setFlightName(int id)
 
 void Flight::setPlane(string p)
 {
+    //input checks
     for (int i = 0; i < 6; i++)
     {
         if (registeredPlanes[i].compare(p) == 0)
@@ -119,6 +129,7 @@ void Flight::setPlane(string p)
 
 void Flight::setLocation(string o, string d)
 {
+    //input checks for destination and origin
     if (!o.compare(d))
     {
         origin = "Invalid";
@@ -132,7 +143,7 @@ void Flight::setLocation(string o, string d)
 
     for (int i = 0; i < 10; i++)
     {
-        if (!places[i].compare(o))
+        if (!places[i].compare(o)) //if they are equal
         {
             origin = o;
             ori = true;
@@ -158,21 +169,10 @@ void Flight::setLocation(string o, string d)
 
 void Flight::setTime(string t)
 {
-    // string str = t.substr(1,2);
-
-    // int num = t[0] - '0';
-    // cout << num;
-
-    // if(num >= 0 && num <= 24 && t.length() == 3 && (str.compare("am") == 0 || str.compare("pm"))) {
-    //     time = t;
-    // }
-    // else {
-    //     time = "Invalid";
-    // }
-
     time = t;
 }
 
+//output flight info
 void Flight::output()
 {
     cout << "Flight Summary" << endl
@@ -195,11 +195,12 @@ bool Flight::readSeat(string s)
 {
     bool valid = true;
     //seat check
-
+    //convert char to readable int
     int seatNum = s[0] - '0';
 
     char letter = s[1];
 
+    //input checks for seats
     if (s.length() != 2 || (seatNum < 1 || seatNum > 5) || (letter != 'a' && letter != 'b' && letter != 'A' && letter != 'B'))
     {
         valid = false;
@@ -210,8 +211,7 @@ bool Flight::readSeat(string s)
 
 void Flight::logCustomer(Seat &s)
 {
-    
-
+    //array storing customer info
     string info[4];
     string l;
 
@@ -229,7 +229,7 @@ void Flight::logCustomer(Seat &s)
 
         cout << "This ticket has been purchased for " << s.returnPrice() << ". Customer Information:" << endl;
     }
-    else
+    else //constant values when testing 
     {
         info[0] = "1";
         info[1] = "2";
@@ -237,16 +237,20 @@ void Flight::logCustomer(Seat &s)
         info[3] = "4";
     }
 
+    //declare a customer using given information
     Customer temp(info[0], info[1], info[2], info[3], s);
 
+    //place customers into the array based on available seats
 	passengerSeating[10 - available - 1] = temp;
+
+    //add profit generated from the seat
     flightProfit += s.returnPrice();
 
+    //printed when not testing 
     if (!testVar)
         temp.displayCustomer();
 
 }
-
 
 //book seat function
 void Flight::bookSeat()
@@ -259,17 +263,17 @@ void Flight::bookSeat()
 
     if (testVar)
     {
+        //iterate through 2d seat array
         for (int r = 0; r < rows; r++)
         {
             for (int c = 0; c < cols; c++)
             {
-				seatingPlan[r][c].setBooked(true);
 				seatingPlan[r][c].setBooked(true); //book every single seat
 		
-				
+                //decrease available seats
 				available--;
+                //pass seat to customer info function
 				logCustomer(seatingPlan[r][c]);
-               
 				
             }
         }
@@ -279,6 +283,7 @@ void Flight::bookSeat()
         return;
     }
 
+    //making sure input is correct 
     while (!valid)
     {
         this->displaySeating();
@@ -297,6 +302,7 @@ void Flight::bookSeat()
         cout << "Invalid Seat Number, Enter a valid seat:" << endl;
     }
 
+    //convert to normal 
     int local_r = newSeat[0] - '0' - 1;
     int local_c;
 
@@ -309,6 +315,7 @@ void Flight::bookSeat()
         local_c = 1;
     }
 
+    //if the seat is not booked 
     if (!seatingPlan[local_r][local_c].getBooked())
     {
         cout << "Your seat " << newSeat << " has been booked successfully." << endl
@@ -319,6 +326,7 @@ void Flight::bookSeat()
 
         available--;
 
+        //find price of seat 
         int pricing = seatingPlan[local_r][local_c].returnPrice();
 
         if (seatingPlan[local_r][local_c].returnBusiness())
@@ -330,11 +338,13 @@ void Flight::bookSeat()
             cout << "This is an economy class seat that costs " << pricing << "$" << endl;
         }
 
+        //show perks of the seat 
         seatingPlan[local_r][local_c].displayPerks();
 
+        //log seat info 
         logCustomer(seatingPlan[local_r][local_c]);
     }
-    else
+    else //seat is already booked 
     {
         cout << "This seat is not available." << endl;
 
@@ -363,17 +373,19 @@ void Flight::bookSeat()
     }
 }
 
+//display seats 
 void Flight::displaySeating()
 {
     cout << "Seating Plan for Flight " << flight << endl;
 
     Seat seat_d;
 
+    //iterate through the seat array 
     for (int r = 0; r < rows; r++)
     {
         for (int c = 0; c < cols; c++)
         {
-
+            //determine what to print when seats are booked or not 
             if (!seatingPlan[r][c].getBooked())
             {
                 cout << seatingPlan[r][c].getName() << "   ";
@@ -388,6 +400,7 @@ void Flight::displaySeating()
     cout << endl;
 }
 
+//mutator 
 void Flight::setTestVar(bool b)
 {
     testVar = b;
@@ -411,17 +424,11 @@ void Flight::cancel()
 
     if (testVar)
     {
-        Customer testTemp;
-        
-        for(int i = 0; i < 10; i++) {
-            passengerSeating[i] = testTemp;
-        }
-
 		for(int r = 0; r < rows; r++) {
 			for(int c = 0; c < cols; c++) {
-				seatingPlan[r][c].setBooked(false);
-				available++;
-				flightProfit -=seatingPlan[r][c].returnPrice();
+				seatingPlan[r][c].setBooked(false); //unbook seat
+				available++; //increase seats available
+				flightProfit -=seatingPlan[r][c].returnPrice(); //decrease total profits from flight
 			}
 		}
 			
@@ -437,6 +444,7 @@ void Flight::cancel()
             cout << "Seat cancellation:" << endl;
             cout << "You will need to verify yourself with your name, phone number, and credit card. Enter 0 to exit and 1 to continue." << endl;
 
+            //more checks for proper input 
             while (exit != 0 && exit != 1)
             {
                 cin >> exit;
@@ -447,6 +455,7 @@ void Flight::cancel()
                 return;
             }
 
+            //take some info
             cout << "Enter your name:";
             cin >> n;
             cout << "Enter your phone number:";
@@ -460,12 +469,14 @@ void Flight::cancel()
         for (int i = 0; i < 10; i++)
         {
 
+            //create temp customer to store info
             temp = passengerSeating[i];
 
             Customer empty;
 
             cout << temp.getCredit();
 
+            //checking all info is correct 
             if (!temp.getName().compare(n) && !temp.getSeat().getName().compare(s) && !temp.getPhone().compare(p) && !testVar)
             { //if name is equal to user name
                 cout << endl
@@ -488,8 +499,10 @@ void Flight::cancel()
 
     cout << "Hi " << temp.getName() << " for Flight " << flight << ", seat " << temp.getSeat().getName() << " was cancelled.";
 
+    //decrease prices
     flightProfit -= temp.getSeat().returnPrice();
 
+    //find rows and columns of the seats 
     int ro = temp.getSeat().getRow();
     int co = temp.getSeat().getCol();
     seatingPlan[ro][co].setBooked(false);
@@ -510,8 +523,10 @@ void Flight::sortArray()
 
         for (int j = i + 1; j < n; j++)
         {
+            //store info temporarily 
             Customer tempCus = passengerSeating[j];
             cout << "tets";
+            
             //indexes of passenger seat
             int ind1 = tempCus.getSeat().getName()[0] - '0';
             char ind2 = tempCus.getSeat().getName()[1];
