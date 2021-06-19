@@ -32,11 +32,12 @@ Seat& Seat::operator=(const Seat&other) {
     col = other.col;
     booked = other.booked;
     name = other.name;
+    business = other.business;
     return *this;
 }
 
 string Seat::getName() {
-    return name;
+    return name;    
 }
 
 bool Seat::getBooked() {
@@ -47,6 +48,14 @@ void Seat::setBooked(bool v) {
     booked = v;
 }
 
+void Seat::setBusiness(bool b) {
+    business = b;
+}
+
+bool Seat::returnBusiness(){
+    return business;
+}
+
 int Seat::getCol() {
     return col;
 }
@@ -55,3 +64,26 @@ int Seat::getRow() {
     return row;
 }
 
+int Seat::returnPrice() {
+    if(business) {
+        return busiPrice;
+    }
+    else {
+        return econPrice;
+    }
+}
+
+void Seat::displayPerks() {
+    cout << "The features offered by this seat:" << endl;
+    
+    for(int i = 0; i < perkSize; i++) {
+        if(business) {
+            cout << busiPerks[i] << ", ";
+        }
+        else {
+            cout << econPerks[i] << ", ";
+        }
+    }
+
+    cout << endl;
+}

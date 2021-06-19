@@ -10,6 +10,7 @@ class flightList {
     private:
         Flight *flightArr;
         static int numFlights;
+        static int totalProfit;
     
     public:
         flightList();
@@ -19,11 +20,17 @@ class flightList {
 
         void selectFlight();
         
-        void cancelSeat();
+        void cancelSeat(int flight_id);
         void bookFlight(int flight_id);
         void displayFlight(int flight_id);
+        void testings(int ns);
+
+        int returnCash();
+
 
         void deAllocate();
+
+
 
 };
 

@@ -18,9 +18,11 @@ class Flight
 {
 private:
      Seat seatingPlan[5][2];
+
      Customer passengerSeating[10];
 
      int available = 10;
+	 int size = 10;
 
      const string registeredPlanes[4] = {"Boeing 737", "Boeing 737Max", "Boeing 747-8", "Boeing 777x"};
      const string places[10] = {"New York City", "Los Angelos", "Houston", "Phoenix", "Nashville", "Kansas", "Nevada", "Austin", "Chicago", "Las Vegas"};
@@ -40,6 +42,8 @@ private:
      Customer passenger[10];
      
      static int flightNum;
+     static int flightProfit;
+     static bool testVar;
 
 public:
      Flight();
@@ -53,7 +57,7 @@ public:
      void setFlightName(int f);
      void setLocation(string o, string d);
 
-     void logCustomer(Seat);
+     void logCustomer(Seat&);
      void initializeSeats();
 
      void displaySeating();
@@ -66,11 +70,20 @@ public:
      void cancelFlight();
 
      void output();
-     
+	
+	void setArrSize(int n);
+
      int returnFlight();
      string returnLocation();
      string returnTime();
      
+     int returnFlightCash();
+
+     void setTestVar(bool v);
+
+     void sortArray();
+     void swapElements(Customer*, Customer*);
+
      Flight& operator =(const Flight&);
 
      ~Flight();
